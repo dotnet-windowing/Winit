@@ -107,6 +107,11 @@ public sealed class EventLoop
 #if WINDOWS
         return new Winit.Win32.EventLoopBuilder();
 #else
+        if (OperatingSystem.IsLinux())
+        {
+            return new Winit.X11.EventLoopBuilder();
+        }
+
         return new UnsupportedEventLoopBuilderProvider();
 #endif
     }

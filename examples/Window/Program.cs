@@ -2,19 +2,23 @@ using System.Collections.Concurrent;
 using Winit;
 using Winit.Core;
 using Winit.Dpi;
+#if WINDOWS
 using Winit.Platform.Windows;
 using WinBackdropType = Winit.Win32.BackdropType;
 using WinColor = Winit.Win32.Color;
 using WinCornerPreference = Winit.Win32.CornerPreference;
+#endif
 
 internal static class Program
 {
     [STAThread]
     private static void Main()
     {
-        EventLoop eventLoop = EventLoop.Builder()
-            .WithDpiAware(true)
-            .Build();
+        EventLoopBuilder builder = EventLoop.Builder();
+#if WINDOWS
+        builder.WithDpiAware(true);
+#endif
+        EventLoop eventLoop = builder.Build();
 
         eventLoop.ListenDeviceEvents(DeviceEvents.Always);
         eventLoop.RunApp(new WindowExample(eventLoop.CreateProxy()));
@@ -68,6 +72,7 @@ internal sealed class WindowExample : IApplicationHandler
         WindowLevel.AlwaysOnBottom,
     ];
 
+#if WINDOWS
     private readonly WinBackdropType[] _backdrops =
     [
         WinBackdropType.Auto,
@@ -107,6 +112,7 @@ internal sealed class WindowExample : IApplicationHandler
         ),
         (null, null, WinColor.SystemDefault, "system")
     ];
+#endif
 
     private readonly (LogicalSize<double> Size, string Name)[] _sizes =
     [
@@ -130,12 +136,16 @@ internal sealed class WindowExample : IApplicationHandler
     private bool _minimized;
     private bool _cursorVisible = true;
     private bool _usingCustomCursor;
+#if WINDOWS
     private bool _skipTaskbar;
     private bool _shadow = true;
     private bool _systemWheelSpeed = true;
+#endif
     private bool _contentProtected;
     private bool _imeAllowed;
+#if WINDOWS
     private bool _enabled = true;
+#endif
     private bool _constraintsEnabled = true;
     private bool _usingAlternateIcon;
     private bool _cursorHittest = true;
@@ -145,9 +155,11 @@ internal sealed class WindowExample : IApplicationHandler
     private int _cursorGrabIndex;
     private int _themeIndex;
     private int _levelIndex;
+#if WINDOWS
     private int _backdropIndex;
     private int _cornerIndex = 2;
     private int _colorSchemeIndex;
+#endif
     private int _sizeIndex = 1;
     private int _redrawCount;
     private int _pointerMoveCount;
@@ -215,18 +227,22 @@ internal sealed class WindowExample : IApplicationHandler
             WindowLevel = _windowLevels[_levelIndex],
             Cursor = Cursor.From(_cursorIcons[_cursorIconIndex]),
             Active = true,
-        }
-        .WithTaskbarIcon(_primaryIcon)
-        .WithDragAndDrop(true)
-        .WithClassName("Winit.CSharp.Example.Window")
-        .WithUndecoratedShadow(_shadow)
-        .WithSystemBackdrop(_backdrops[_backdropIndex])
-        .WithClipChildren(true)
-        .WithBorderColor(_colorSchemes[_colorSchemeIndex].Border)
-        .WithTitleBackgroundColor(_colorSchemes[_colorSchemeIndex].Caption)
-        .WithTitleTextColor(_colorSchemes[_colorSchemeIndex].Text)
-        .WithCornerPreference(_corners[_cornerIndex])
-        .WithUseSystemScrollSpeed(_systemWheelSpeed);
+        };
+
+#if WINDOWS
+        attributes = attributes
+            .WithTaskbarIcon(_primaryIcon)
+            .WithDragAndDrop(true)
+            .WithClassName("Winit.CSharp.Example.Window")
+            .WithUndecoratedShadow(_shadow)
+            .WithSystemBackdrop(_backdrops[_backdropIndex])
+            .WithClipChildren(true)
+            .WithBorderColor(_colorSchemes[_colorSchemeIndex].Border)
+            .WithTitleBackgroundColor(_colorSchemes[_colorSchemeIndex].Caption)
+            .WithTitleTextColor(_colorSchemes[_colorSchemeIndex].Text)
+            .WithCornerPreference(_corners[_cornerIndex])
+            .WithUseSystemScrollSpeed(_systemWheelSpeed);
+#endif
 
         _window = eventLoop.CreateWindow(attributes);
         Log($"created window id={_window.Id.IntoRaw()} scale={_window.ScaleFactor:0.##}");
@@ -551,9 +567,11 @@ internal sealed class WindowExample : IApplicationHandler
             case ConsoleKey.Subtract:
                 ResizeBy(-80, -50);
                 break;
+#if WINDOWS
             case ConsoleKey.B:
                 CycleBackdrop();
                 break;
+#endif
             case ConsoleKey.C:
                 CycleCursorIcon();
                 break;
@@ -572,15 +590,18 @@ internal sealed class WindowExample : IApplicationHandler
             case ConsoleKey.A:
                 RequestAttention();
                 break;
+#if WINDOWS
             case ConsoleKey.K:
                 ToggleSkipTaskbar();
                 break;
             case ConsoleKey.E:
                 ToggleEnabled();
                 break;
+#endif
             case ConsoleKey.O:
                 ToggleContentProtected();
                 break;
+#if WINDOWS
             case ConsoleKey.D1:
                 CycleColors();
                 break;
@@ -593,6 +614,7 @@ internal sealed class WindowExample : IApplicationHandler
             case ConsoleKey.D4:
                 ToggleSystemWheelSpeed();
                 break;
+#endif
             case ConsoleKey.D5:
                 ToggleTransparent();
                 break;
@@ -705,9 +727,11 @@ internal sealed class WindowExample : IApplicationHandler
             case KeyCode.Minus:
                 ResizeBy(-80, -50);
                 break;
+#if WINDOWS
             case KeyCode.KeyB:
                 CycleBackdrop();
                 break;
+#endif
             case KeyCode.KeyC:
                 CycleCursorIcon();
                 break;
@@ -726,15 +750,18 @@ internal sealed class WindowExample : IApplicationHandler
             case KeyCode.KeyA:
                 RequestAttention();
                 break;
+#if WINDOWS
             case KeyCode.KeyK:
                 ToggleSkipTaskbar();
                 break;
             case KeyCode.KeyE:
                 ToggleEnabled();
                 break;
+#endif
             case KeyCode.KeyO:
                 ToggleContentProtected();
                 break;
+#if WINDOWS
             case KeyCode.Digit1:
                 CycleColors();
                 break;
@@ -747,6 +774,7 @@ internal sealed class WindowExample : IApplicationHandler
             case KeyCode.Digit4:
                 ToggleSystemWheelSpeed();
                 break;
+#endif
             case KeyCode.Digit5:
                 ToggleTransparent();
                 break;
@@ -964,12 +992,14 @@ internal sealed class WindowExample : IApplicationHandler
         });
     }
 
+#if WINDOWS
     private void CycleBackdrop()
     {
         _backdropIndex = (_backdropIndex + 1) % _backdrops.Length;
         WinBackdropType backdrop = _backdrops[_backdropIndex];
         TryWindow($"backdrop={backdrop}", window => window.SetSystemBackdrop(backdrop));
     }
+#endif
 
     private void CycleCursorIcon()
     {
@@ -1031,6 +1061,7 @@ internal sealed class WindowExample : IApplicationHandler
         TryWindow($"attention={type}", window => window.RequestUserAttention(type));
     }
 
+#if WINDOWS
     private void ToggleSkipTaskbar()
     {
         _skipTaskbar = !_skipTaskbar;
@@ -1041,12 +1072,6 @@ internal sealed class WindowExample : IApplicationHandler
     {
         _enabled = !_enabled;
         TryWindow($"enabled={_enabled}", window => window.SetEnable(_enabled));
-    }
-
-    private void ToggleContentProtected()
-    {
-        _contentProtected = !_contentProtected;
-        TryWindow($"content protected={_contentProtected}", window => window.SetContentProtected(_contentProtected));
     }
 
     private void CycleColors()
@@ -1078,6 +1103,13 @@ internal sealed class WindowExample : IApplicationHandler
     {
         _systemWheelSpeed = !_systemWheelSpeed;
         TryWindow($"system wheel speed={_systemWheelSpeed}", window => window.SetUseSystemScrollSpeed(_systemWheelSpeed));
+    }
+#endif
+
+    private void ToggleContentProtected()
+    {
+        _contentProtected = !_contentProtected;
+        TryWindow($"content protected={_contentProtected}", window => window.SetContentProtected(_contentProtected));
     }
 
     private void ToggleTransparent()
@@ -1119,7 +1151,9 @@ internal sealed class WindowExample : IApplicationHandler
         TryWindow($"icon={(_usingAlternateIcon ? "alternate" : "primary")}", window =>
         {
             window.SetWindowIcon(icon);
+#if WINDOWS
             window.SetTaskbarIcon(icon);
+#endif
         });
     }
 
@@ -1264,10 +1298,15 @@ internal sealed class WindowExample : IApplicationHandler
         Console.WriteLine("  H/F1 help, Q/Esc quit, F5 redraw, F/F11 fullscreen");
         Console.WriteLine("  R resizable, D decorations, V visible, M maximize, N minimize");
         Console.WriteLine("  S cycle size, +/- resize, P move, arrows move");
+#if WINDOWS
         Console.WriteLine("  T theme, L level, B backdrop, 1 DWM colors, 2 corners");
         Console.WriteLine("  C cursor icon, U custom cursor, G cursor grab, Y cursor visible, 9 cursor hittest");
         Console.WriteLine("  I IME, A attention, K skip taskbar, E enable, O content protection");
         Console.WriteLine("  3 shadow, 4 system wheel speed, 5 transparent, 6 blur, 7 constraints, 8 icon");
+#else
+        Console.WriteLine("  T theme, L level, C cursor icon, U custom cursor, G cursor grab, Y cursor visible");
+        Console.WriteLine("  I IME, A attention, O content protection, 5 transparent, 6 blur, 7 constraints, 8 icon, 9 cursor hittest");
+#endif
         Console.WriteLine("  0 device event mode, X reset dead keys, J focus");
         Console.WriteLine("  Right click opens the system menu, middle click starts system move, drag files over the window.");
         Console.WriteLine();
@@ -1504,8 +1543,15 @@ internal sealed class WindowExample : IApplicationHandler
             return "none";
         }
 
+#if WINDOWS
         string? persistent = value.PersistentIdentifier();
-        return persistent is null ? value.IntoRaw().ToString() : $"{value.IntoRaw()}:{persistent}";
+        if (persistent is not null)
+        {
+            return $"{value.IntoRaw()}:{persistent}";
+        }
+#endif
+
+        return value.IntoRaw().ToString();
     }
 
     private static string FormatMonitor(MonitorHandle? monitor)
