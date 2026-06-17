@@ -40,8 +40,8 @@ dotnet build .\Winit.slnx
 Build only the facade:
 
 ```powershell
-dotnet build .\src\Winit\Winit.csproj -f net10.0
-dotnet build .\src\Winit\Winit.csproj -f net10.0-windows
+dotnet build .\Winit\Winit.csproj -f net10.0
+dotnet build .\Winit\Winit.csproj -f net10.0-windows
 ```
 
 Run the window example:

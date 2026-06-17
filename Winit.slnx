@@ -1,10 +1,10 @@
 <Solution>
-  <Project Path="src/Winit.Dpi/Winit.Dpi.csproj" />
-  <Project Path="src/Winit.Core/Winit.Core.csproj" />
-  <Project Path="src/Winit.Common/Winit.Common.csproj" />
-  <Project Path="src/Winit/Winit.csproj" />
-  <Project Path="src/Winit.Win32/Winit.Win32.csproj" />
-  <Project Path="src/Winit.X11/Winit.X11.csproj" />
-  <Project Path="src/Winit.Wayland/Winit.Wayland.csproj" />
+  <Project Path="Winit.Dpi/Winit.Dpi.csproj" />
+  <Project Path="Winit.Core/Winit.Core.csproj" />
+  <Project Path="Winit.Common/Winit.Common.csproj" />
+  <Project Path="Winit/Winit.csproj" />
+  <Project Path="Winit.Win32/Winit.Win32.csproj" />
+  <Project Path="Winit.X11/Winit.X11.csproj" />
+  <Project Path="Winit.Wayland/Winit.Wayland.csproj" />
   <Project Path="examples/Window/Window.csproj" />
 </Solution>
