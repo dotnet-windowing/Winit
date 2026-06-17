@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="RawWindowHandles/RawWindowHandles.csproj" />
   <Project Path="Winit.Dpi/Winit.Dpi.csproj" />
   <Project Path="Winit.Core/Winit.Core.csproj" />
   <Project Path="Winit.Common/Winit.Common.csproj" />

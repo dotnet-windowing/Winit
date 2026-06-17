@@ -1,4 +1,5 @@
 using System.Text;
+using RawWindowHandles;
 using Winit.Common.Xkb;
 using Winit.Core;
 using Winit.Dpi;
@@ -128,9 +129,9 @@ public sealed unsafe class Window : IWindow, IWindowExtX11
 
     public CoreMonitorHandle? PrimaryMonitor => Monitor.PrimaryMonitor(_xconn);
 
-    public object? DisplayHandle => RawDisplayHandle.FromXlib(_xconn.Display, _xconn.DefaultScreen);
+    public RawDisplayHandle? DisplayHandle => RawDisplayHandle.FromXlib(_xconn.Display, _xconn.DefaultScreen);
 
-    public object? WindowHandle => RawWindowHandle.FromXlib(_window.Value, _visualId);
+    public RawWindowHandle? WindowHandle => RawWindowHandle.FromXlib(_window.Value, _visualId);
 
     internal XlibWindow XWindow => _window;
 

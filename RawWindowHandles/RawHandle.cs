@@ -1,4 +1,34 @@
-namespace Winit.Core;
+namespace RawWindowHandles;
+
+public interface IHasDisplayHandle
+{
+    RawDisplayHandle? DisplayHandle { get; }
+}
+
+public interface IHasWindowHandle : IHasDisplayHandle
+{
+    RawWindowHandle? WindowHandle { get; }
+}
+
+public sealed class OwnedDisplayHandle(RawDisplayHandle? handle) : IEquatable<OwnedDisplayHandle>
+{
+    public RawDisplayHandle? Handle { get; } = handle;
+
+    public bool Equals(OwnedDisplayHandle? other)
+    {
+        return other is not null && EqualityComparer<RawDisplayHandle?>.Default.Equals(Handle, other.Handle);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is OwnedDisplayHandle other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return Handle?.GetHashCode() ?? 0;
+    }
+}
 
 public record struct RawDisplayHandle
 {

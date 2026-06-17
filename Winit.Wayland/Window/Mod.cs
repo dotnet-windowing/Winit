@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using RawWindowHandles;
 using Winit.Common.Xkb;
 using Winit.Core;
 using Winit.Dpi;
@@ -194,9 +195,9 @@ public sealed unsafe class Window : IWindow, IWindowExtWayland, IDisposable
 
     public CoreMonitorHandle? PrimaryMonitor => _eventLoop.PrimaryMonitor;
 
-    public object? DisplayHandle => RawDisplayHandle.FromWayland(_eventLoop.State.Connection.Display.Value);
+    public RawDisplayHandle? DisplayHandle => RawDisplayHandle.FromWayland(_eventLoop.State.Connection.Display.Value);
 
-    public object? WindowHandle => RawWindowHandle.FromWayland(SurfaceHandle.Value);
+    public RawWindowHandle? WindowHandle => RawWindowHandle.FromWayland(SurfaceHandle.Value);
 
     public static Window Create(EventLoop eventLoop, WindowAttributes attributes)
     {

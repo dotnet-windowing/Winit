@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using RawWindowHandles;
 using Winit.Core;
 using Winit.Dpi;
 using DrawingPoint = System.Drawing.Point;
@@ -364,9 +365,9 @@ public sealed unsafe class Window : IWindow, IDisposable
 
     public CoreMonitorHandle? PrimaryMonitor => Monitor.PrimaryMonitor();
 
-    public object? DisplayHandle => RawDisplayHandle.FromWindows();
+    public RawDisplayHandle? DisplayHandle => RawDisplayHandle.FromWindows();
 
-    public object? WindowHandle => RawWindowHandle.FromWin32(Util.HwndValue(_hwnd), ModuleHandle());
+    public RawWindowHandle? WindowHandle => RawWindowHandle.FromWin32(Util.HwndValue(_hwnd), ModuleHandle());
 
     public void RequestRedraw()
     {

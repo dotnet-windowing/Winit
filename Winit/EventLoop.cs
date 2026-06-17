@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using RawWindowHandles;
 using Winit.Core;
 
 namespace Winit;

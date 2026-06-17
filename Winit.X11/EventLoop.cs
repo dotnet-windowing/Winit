@@ -2,6 +2,7 @@ using System.Threading;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using RawWindowHandles;
 using Winit.Common.Xkb;
 using Winit.Core;
 using Winit.X11.Util;
@@ -82,7 +83,7 @@ public sealed unsafe class EventLoop : IPlatformEventLoop, IActiveEventLoopExtX1
 
     public OwnedDisplayHandle OwnedDisplayHandle => new(RawDisplayHandle.FromXlib(_xconn.Display, _xconn.DefaultScreen));
 
-    public object? DisplayHandle => RawDisplayHandle.FromXlib(_xconn.Display, _xconn.DefaultScreen);
+    public RawDisplayHandle? DisplayHandle => RawDisplayHandle.FromXlib(_xconn.Display, _xconn.DefaultScreen);
 
     internal XConnection XConnection => _xconn;
 

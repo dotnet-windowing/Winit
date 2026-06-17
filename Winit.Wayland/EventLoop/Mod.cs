@@ -1,4 +1,5 @@
 using System.Threading;
+using RawWindowHandles;
 using Winit.Core;
 using Winit.Dpi;
 using CoreMonitorHandle = Winit.Core.MonitorHandle;
@@ -101,7 +102,7 @@ public sealed unsafe class EventLoop :
     public OwnedDisplayHandle OwnedDisplayHandle =>
         new(RawDisplayHandle.FromWayland(_state.Connection.Display.Value));
 
-    public object? DisplayHandle => RawDisplayHandle.FromWayland(_state.Connection.Display.Value);
+    public RawDisplayHandle? DisplayHandle => RawDisplayHandle.FromWayland(_state.Connection.Display.Value);
 
     internal WinitState State => _state;
 

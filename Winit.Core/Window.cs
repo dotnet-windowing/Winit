@@ -1,4 +1,5 @@
 using System.Text;
+using RawWindowHandles;
 using Winit.Dpi;
 
 namespace Winit.Core;
@@ -221,7 +222,7 @@ public interface IPlatformWindowAttributes : IAsAny
     IPlatformWindowAttributes Clone();
 }
 
-public interface IWindow : IAsAny
+public interface IWindow : IAsAny, IHasWindowHandle
 {
     WindowId Id { get; }
 
@@ -266,10 +267,6 @@ public interface IWindow : IAsAny
     IEnumerable<MonitorHandle> AvailableMonitors { get; }
 
     MonitorHandle? PrimaryMonitor { get; }
-
-    object? DisplayHandle { get; }
-
-    object? WindowHandle { get; }
 
     void RequestRedraw();
 

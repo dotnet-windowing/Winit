@@ -1,4 +1,5 @@
 using System.Threading;
+using RawWindowHandles;
 
 namespace Winit.Core;
 
@@ -29,7 +30,7 @@ public readonly record struct Instant(long Timestamp)
     }
 }
 
-public interface IActiveEventLoop : IAsAny
+public interface IActiveEventLoop : IAsAny, IHasDisplayHandle
 {
     EventLoopProxy CreateProxy();
 
@@ -48,8 +49,6 @@ public interface IActiveEventLoop : IAsAny
     bool Exiting { get; }
 
     OwnedDisplayHandle OwnedDisplayHandle { get; }
-
-    object? DisplayHandle { get; }
 
     void ListenDeviceEvents(DeviceEvents allowed);
 
@@ -81,25 +80,6 @@ public interface IEventLoopProxyProvider : IAsAny
     void WakeUp();
 }
 
-public sealed class OwnedDisplayHandle(object? handle) : IEquatable<OwnedDisplayHandle>
-{
-    public object? Handle { get; } = handle;
-
-    public bool Equals(OwnedDisplayHandle? other)
-    {
-        return other is not null && EqualityComparer<object?>.Default.Equals(Handle, other.Handle);
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return obj is OwnedDisplayHandle other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-        return Handle?.GetHashCode() ?? 0;
-    }
-}
 
 public readonly record struct AsyncRequestSerial(nuint Serial)
 {

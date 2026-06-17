@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RawWindowHandles\RawWindowHandles.csproj" />
     <ProjectReference Include="..\Winit.Core\Winit.Core.csproj" />
     <ProjectReference Include="..\Winit.Common\Winit.Common.csproj" />
   </ItemGroup>

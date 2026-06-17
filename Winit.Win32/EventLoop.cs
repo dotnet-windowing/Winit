@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
+using RawWindowHandles;
 using Winit.Core;
 using CoreMonitorHandle = Winit.Core.MonitorHandle;
 
@@ -79,7 +80,7 @@ public sealed class EventLoop : IPlatformEventLoop, IEventLoopExtPumpEvents, IEv
 
     public OwnedDisplayHandle OwnedDisplayHandle => _ownedDisplayHandle;
 
-    public object? DisplayHandle => RawDisplayHandle.FromWindows();
+    public RawDisplayHandle? DisplayHandle => RawDisplayHandle.FromWindows();
 
     internal EventLoopThreadExecutor ThreadExecutor { get; }
 
