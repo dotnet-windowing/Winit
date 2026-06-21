@@ -105,7 +105,9 @@ public sealed class EventLoop
 
     private static IPlatformEventLoopBuilder CreatePlatformBuilder()
     {
-#if WINDOWS
+#if ANDROID
+        return new Winit.Android.EventLoopBuilder();
+#elif WINDOWS
         return new Winit.Win32.EventLoopBuilder();
 #else
         if (OperatingSystem.IsLinux())

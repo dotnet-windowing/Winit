@@ -7,5 +7,7 @@
   <Project Path="Winit.Win32/Winit.Win32.csproj" />
   <Project Path="Winit.X11/Winit.X11.csproj" />
   <Project Path="Winit.Wayland/Winit.Wayland.csproj" />
+  <Project Path="Winit.Android/Winit.Android.csproj" />
   <Project Path="examples/Window/Window.csproj" />
+  <Project Path="examples/AndroidWindow/AndroidWindow.csproj" />
 </Solution>

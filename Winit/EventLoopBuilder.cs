@@ -33,7 +33,9 @@ public sealed class EventLoopBuilder
 
     private void ApplySharedAttributes()
     {
-#if WINDOWS
+#if ANDROID
+        // Android does not expose the cross-platform AnyThread setting.
+#elif WINDOWS
         if (Backend is Winit.Win32.EventLoopBuilder windowsBuilder)
         {
             windowsBuilder.WithAnyThread(AnyThread);
