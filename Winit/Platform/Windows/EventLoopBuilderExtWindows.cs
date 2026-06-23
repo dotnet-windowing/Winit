@@ -1,4 +1,4 @@
-#if WINDOWS
+#if !ANDROID
 namespace Winit.Platform.Windows;
 
 public static class EventLoopBuilderExtWindows

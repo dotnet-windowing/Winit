@@ -1,4 +1,4 @@
-#if !WINDOWS && !ANDROID
+#if !ANDROID
 using Winit.Core;
 using Winit.Dpi;
 

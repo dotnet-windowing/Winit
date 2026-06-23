@@ -1,4 +1,4 @@
-#if WINDOWS
+#if !ANDROID
 using Winit.Core;
 
 namespace Winit.Platform.Windows;

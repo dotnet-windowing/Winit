@@ -1,4 +1,4 @@
-#if !WINDOWS && !ANDROID
+#if !ANDROID
 namespace Winit.Platform.Wayland;
 
 public static class EventLoopBuilderExtWayland

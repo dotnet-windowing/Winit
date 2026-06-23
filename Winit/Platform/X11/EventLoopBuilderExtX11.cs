@@ -1,4 +1,4 @@
-#if !WINDOWS && !ANDROID
+#if !ANDROID
 namespace Winit.Platform.X11;
 
 public static class EventLoopBuilderExtX11

@@ -1,4 +1,4 @@
-#if !WINDOWS && !ANDROID
+#if !ANDROID
 using Winit.Core;
 
 namespace Winit.Platform.StartupNotify;

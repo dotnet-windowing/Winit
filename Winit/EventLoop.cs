@@ -107,9 +107,12 @@ public sealed class EventLoop
     {
 #if ANDROID
         return new Winit.Android.EventLoopBuilder();
-#elif WINDOWS
-        return new Winit.Win32.EventLoopBuilder();
 #else
+        if (OperatingSystem.IsWindows())
+        {
+            return new Winit.Win32.EventLoopBuilder();
+        }
+
         if (OperatingSystem.IsLinux())
         {
             if (HasNonEmptyEnvironment("WAYLAND_DISPLAY") || HasNonEmptyEnvironment("WAYLAND_SOCKET"))

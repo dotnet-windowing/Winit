@@ -35,13 +35,12 @@ public sealed class EventLoopBuilder
     {
 #if ANDROID
         // Android does not expose the cross-platform AnyThread setting.
-#elif WINDOWS
+#else
         if (Backend is Winit.Win32.EventLoopBuilder windowsBuilder)
         {
             windowsBuilder.WithAnyThread(AnyThread);
         }
-#else
-        if (Backend is Winit.Wayland.EventLoopBuilder waylandBuilder)
+        else if (Backend is Winit.Wayland.EventLoopBuilder waylandBuilder)
         {
             waylandBuilder.WithAnyThread(AnyThread);
         }
